@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAR Villa Film Plan</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap">
+<style>
+:root { --o:#d94f1e; --ink:#111; --ink2:#1b1b1d; --line:rgba(255,255,255,.12); --g:#a9a9a9; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--ink); color:#fff; font:16px/1.6 Archivo, system-ui, sans-serif; }
+main { max-width:1180px; margin:0 auto; padding:48px 20px 90px; }
+.k { color:var(--o); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:12px; margin:0 0 10px; }
+h1 { font-size:clamp(34px,5vw,58px); line-height:1.05; margin:0 0 12px; letter-spacing:-.02em; }
+h2 { font-size:28px; margin:64px 0 8px; letter-spacing:-.01em; }
+h2 span { color:var(--o); margin-inline-end:10px; }
+h3 { font-size:18px; margin:24px 0 6px; }
+p, li { color:rgba(255,255,255,.82); }
+.lead { font-size:18px; max-width:72ch; }
+.links { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; background:var(--o); color:#fff; text-decoration:none; font-weight:600; font-size:14px; }
+.btn.ghost { background:transparent; border:1px solid var(--line); }
+.box { background:var(--ink2); border:1px solid var(--line); border-radius:14px; padding:22px; }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-top:16px; }
+.grid4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:16px; }
+.stat b { display:block; font-size:28px; font-weight:800; color:#fff; line-height:1.1; }
+.stat span { color:var(--g); font-size:14px; }
+.tablewrap { overflow-x:auto; margin-top:16px; border:1px solid var(--line); border-radius:14px; }
+table { border-collapse:collapse; width:100%; min-width:980px; font-size:14.5px; }
+th { text-align:start; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--g); padding:12px 14px; border-bottom:1px solid var(--line); background:var(--ink2); }
+td { padding:14px; border-bottom:1px solid var(--line); vertical-align:top; color:rgba(255,255,255,.85); }
+tr:last-child td { border-bottom:0; }
+td.n { font-weight:800; color:var(--o); font-size:18px; }
+td b { color:#fff; }
+td.num, th.num { text-align:end; white-space:nowrap; font-variant-numeric:tabular-nums; }
+tfoot td { font-weight:700; color:#fff; background:var(--ink2); }
+.leb { display:inline-block; font-size:12px; color:#ffb48f; }
+.logo-story { display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:center; }
+.logo-story svg { width:220px; height:120px; }
+.prompt { font-family:ui-monospace, Consolas, monospace; font-size:13.5px; line-height:1.55; background:#0b0b0c; border:1px solid var(--line); border-radius:10px; padding:16px; color:#e9e9e9; white-space:pre-wrap; }
+.steps { counter-reset:s; list-style:none; padding:0; margin:16px 0 0; display:grid; gap:10px; }
+.steps li { counter-increment:s; background:var(--ink2); border:1px solid var(--line); border-radius:12px; padding:14px 16px 14px 56px; position:relative; }
+.steps li::before { content:counter(s); position:absolute; inset-inline-start:16px; top:13px; width:26px; height:26px; border-radius:50%; background:var(--o); color:#fff; font-weight:800; display:grid; place-items:center; font-size:13px; }
+.steps b { color:#fff; }
+.note { border-inline-start:3px solid var(--o); padding:10px 16px; background:rgba(217,79,30,.08); border-radius:4px 10px 10px 4px; margin-top:16px; }
+footer { margin-top:64px; padding-top:18px; border-top:1px solid var(--line); color:var(--g); font-size:13px; }
+@media (max-width:700px) { .logo-story { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="k">DAR Trading & Contracting · Olon · Draft for internal review · 31 Oct 2026</p>
+  <h1>The DAR villa film: full plan</h1>
+  <p class="lead">A scroll-driven website where one drone flight follows DAR building a modern villa in Lebanon, from the first drawing to the night the owner gets the keys. This page is the production plan. The 3D preview shows exactly the order, camera moves and text; the final site swaps the 3D for photoreal Higgsfield footage.</p>
+  <div class="links">
+    <a class="btn" href="/?lang=en">Open the 3D preview</a>
+    <a class="btn ghost" href="/moodboard/lebanese-construction-moodboard.html">Moodboard &amp; TikTok review</a>
+  </div>
+
+  <h2><span>01</span>The idea</h2>
+  <p class="lead">DAR's promise is “Results First. Payment Follows.” The film proves it visually: you watch the result being built, stage by stage, and the website only asks for contact at the end, after the keys are handed over.</p>
+  <div class="box logo-story" style="margin-top:16px">
+    <svg viewBox="0 0 220 120" aria-label="The DAR line turning around the circle from 0 to 180 degrees">
+      <path d="M50 100 A60 60 0 0 1 170 100" fill="none" stroke="rgba(255,255,255,.3)" stroke-dasharray="4 4" stroke-width="2"/>
+      <rect x="123" y="97" width="57" height="6" fill="#d94f1e" opacity=".35"/>
+      <rect x="107" y="30" width="6" height="57" fill="#d94f1e" opacity=".6"/>
+      <rect x="40" y="97" width="57" height="6" fill="#d94f1e"/>
+      <circle cx="110" cy="100" r="9" fill="none" stroke="#d94f1e" stroke-width="4"/>
+      <text x="168" y="118" fill="#a9a9a9" font-size="11" font-family="Archivo">0°</text>
+      <text x="116" y="26" fill="#a9a9a9" font-size="11" font-family="Archivo">90°</text>
+      <text x="34" y="118" fill="#a9a9a9" font-size="11" font-family="Archivo">180°</text>
+    </svg>
+    <div>
+      <h3 style="margin-top:0">The logo is the story</h3>
+      <p style="margin:0">The DAR circle is the pivot and the line turns around it from 0° to 180°: empty land at 0°, the villa delivered at 180°, the full turn from promise to result. The site uses this three times: the loading screen, the gauge that turns as you scroll (0° → 180°), and the final frame next to the finished villa.</p>
+    </div>
+  </div>
+
+  <h2><span>02</span>The villa</h2>
+  <p>A concept project designed for the film, not a real client's house. Modern Lebanese, mostly glass: floor-to-ceiling glazing on three sides of both floors, white frame edges and deep overhangs with LED strips, a balcony with a glass railing and planters, black vertical fins on the bedroom side, Lebanese stone only at the base, and a flat roof with solar panels and a water tank hidden behind the parapet.</p>
+  <div class="grid4">
+    <div class="box stat"><b>≈ 60 × 44 m</b><span>Plot on a hillside, mountains behind, sea in the distance</span></div>
+    <div class="box stat"><b>2 floors</b><span>Villa ≈ 24 × 14 m ground floor (336 m²): entry porch, foyer, powder room, stair hall with lift, salon, dining, family living, kitchen, and a service wing with laundry, store, maid's room and bath. Upper floor 28 × 14 m with a 4 m cantilever</span></div>
+    <div class="box stat"><b>≈ 14 × 5 m</b><span>Swimming pool with stone deck and night lighting</span></div>
+    <div class="box stat"><b>3 cars</b><span>Covered parking under a timber pergola, paved driveway, sliding gate</span></div>
+    <div class="box stat"><b>10.97 × 23.77 m</b><span>Full-size tennis court: hard court, net, fence, floodlights</span></div>
+    <div class="box stat"><b>12 × 12 m</b><span>Basketball half court: acrylic surface, hoop, floodlights</span></div>
+    <div class="box stat"><b>Modern wall</b><span>White rendered boundary wall with black aluminium slats and lit piers; lawn across the whole plot, olive and pine trees</span></div>
+  </div>
+
+  <h2><span>03</span>Storyboard: one continuous drone flight</h2>
+  <p>Each scene is a still <b>keyframe</b> (a 4K photoreal image) and each move between keyframes is a <b>clip</b> (AI video that starts on one keyframe and ends on the next). Chaining them end-to-start makes it feel like a single flight with no cuts.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>#</th><th>Scene</th><th>What we see</th><th>Camera</th><th>On screen</th><th class="num">Keyframes</th><th class="num">Clips</th></tr></thead>
+      <tbody>
+        <tr><td class="n">0</td><td><b>The plan</b></td><td>A printed architectural sheet from straight above, CAD style: black ink on white paper, axis grid with numbered bubbles, dimension strings, thick walls, furniture, the 3 cars in the parking, the pool, the tennis and basketball courts with their markings, tree symbols and a DAR title block. A plotter sweep draws it in, then a white massing model rises out of it.</td><td>Straight down, slow push in</td><td>“Results First. Payment Follows.”</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td class="n">1</td><td><b>The land</b></td><td>The drawing dissolves straight into the real plot: dry soil, scrub, olive and pine trees, neighbours' houses with water tanks, hills behind, sea haze.<br><span class="leb">Lebanese: terraced hills, rooftop tanks</span></td><td>Tilt from top-down to a 30° drone angle</td><td>“From paper to a real plot.”</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td class="n">2</td><td><b>Excavation</b></td><td>Excavator digging the villa pit and the pool, soil heap, a tipper truck at the gate.</td><td>Low orbit around the excavator</td><td>“We dig in. Literally.”</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td class="n">3</td><td><b>Foundation</b></td><td>Rebar mat with starter bars, then pour day: pump boom, mixer truck, workers in DAR orange vests vibrating the concrete. Pool shell cast.</td><td>Top-down over the rebar, then pull back for the pump</td><td>“Strength you never see.”</td><td class="num">2</td><td class="num">2</td></tr>
+        <tr><td class="n">4</td><td><b>Structure</b></td><td>Concrete columns; plywood decks on rows of steel props; slab pour; the upper floor cantilevering out. Rebar left sticking up on the roof.<br><span class="leb">Lebanese: props, plywood, rebar on the roof</span></td><td>Rising crane-style move from ground to roof level</td><td>“Floor by floor, on schedule.”</td><td class="num">2</td><td class="num">2</td></tr>
+        <tr><td class="n">5</td><td><b>Walls</b></td><td>Grey hollow concrete blocks laid between the columns, mortar, a mason with a level.<br><span class="leb">Lebanese: hollow block (“bloc”) infill</span></td><td>Lateral slide along the facade</td><td>“Block by block.”</td><td class="num">1</td><td class="num">1</td></tr>
+        <tr><td class="n">6</td><td><b>Fly-in: pipes in the floor</b></td><td>The drone flies through the opening into the living room. From above: green PPR water pipes, grey drains and orange corrugated conduits laid <b>on the slab</b>; then sand fill, screed, and marble tiles rolling over them.<br><span class="leb">Lebanese: services in the floor, not on the walls</span></td><td>Fly through the opening, rise to top-down inside the room</td><td>“What lives under your floor.”</td><td class="num">3</td><td class="num">3</td></tr>
+        <tr><td class="n">7</td><td><b>Finishing</b></td><td>Glazing going in floor to ceiling on three sides; white frames and the deep roof overhang with LED strips; balcony glass railing and planters; black vertical fins; stone at the base; gypsum ceiling with downlights inside; solar panels and tank on the roof.<br><span class="leb">Lebanese: stone base, solar + tank on the roof</span></td><td>Pull back out of the house, slow arc across the facade</td><td>“The details you live with.”</td><td class="num">2</td><td class="num">2</td></tr>
+        <tr><td class="n">8</td><td><b>Pool, parking &amp; courts</b></td><td>Pool filling with water; pavers on the driveway; pergola over the parking; the tennis court surfaced and lined, net and fence up; the basketball half court painted and the hoop raised; lawn rolled out across the plot; modern slatted boundary wall, gate, trees planted.</td><td>High drone pass over the whole plot</td><td>“Room to live outside.”</td><td class="num">2</td><td class="num">2</td></tr>
+        <tr><td class="n">9</td><td><b>Handover at dusk</b></td><td>Pink-orange dusk, every light on: glowing pool, floodlit courts, warm windows. The owner's car comes through the gate; a DAR engineer hands over the keys. The DAR mark stands up beside the villa.</td><td>Slow orbit, ending on the keys, then wide</td><td>No text: the finished villa speaks for itself</td><td class="num">2</td><td class="num">2</td></tr>
+      </tbody>
+      <tfoot><tr><td></td><td colspan="4">≈ 17 clips × 8–10 s ≈ 2.5–3 minutes of footage, scrubbed by scroll</td><td class="num">17</td><td class="num">17</td></tr></tfoot>
+    </table>
+  </div>
+
+  <h2><span>04</span>How the website plays it</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3 style="margin-top:0">The film section</h3>
+      <ul>
+        <li>Each clip is turned into a frame sequence (WebP/AVIF) so scrolling down plays it forward and scrolling up plays it backward, frame-exact, like a drone you steer.</li>
+        <li>Three sizes: 1920 px desktop, 1280 px laptop, 9:16 crop for phones. Frames load one scene ahead so the first screen is under 2 MB.</li>
+        <li>Text panels, the stage rail and the rising logo gauge stay on top, exactly as in the 3D preview.</li>
+        <li>At the end, the villa is explorable: point at the pool, parking, tennis court, basketball court or house for details.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">After the film</h3>
+      <ul>
+        <li><b>Promised / Delivered</b>: drag a divider across the screen, the plan on one side and the finished villa on the other. This carries the payment message.</li>
+        <li><b>Services</b>: finishing, plumbing, electrical, design &amp; project management.</li>
+        <li><b>Principles</b>: what DAR believes in and refuses to do.</li>
+        <li><b>Partners</b>: DCP and HEK.HOUSE.</li>
+        <li><b>Contact</b>: WhatsApp-first form, phone, email. English, French and Arabic throughout.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span>05</span>Keeping the villa identical in every shot</h2>
+  <p>The biggest risk with AI video is the building changing shape between shots. The method:</p>
+  <ol class="steps">
+    <li><b>Master design sheet first.</b> One approved set of the finished villa (front, side, top, dusk). Every keyframe prompt uses it as a reference image.</li>
+    <li><b>Build backwards.</b> Generate the finished villa first, then “remove” stages from that same image (finishing → walls → frame → slab → pit → land), so the plot, the angle and the neighbours never move.</li>
+    <li><b>Chain the clips.</b> The last frame of clip N is the first frame of clip N+1.</li>
+    <li><b>Same lens, same light.</b> One drone lens and a fixed sun direction for all daytime shots; only scene 9 changes to dusk.</li>
+    <li><b>Lebanese checklist on every prompt.</b> Concrete frame + hollow block, props and plywood, services in the floor, stone cladding, tanks and solar on roofs, no timber framing.</li>
+  </ol>
+  <h3>Example prompts</h3>
+  <div class="grid2">
+    <div class="prompt">Scene 4 keyframe — structure
+Aerial drone photo, 35mm, 30° down angle, late-morning Mediterranean sun. A two-storey reinforced concrete villa frame under construction on a Mediterranean hillside plot: grey concrete columns, the first-floor slab poured, the roof deck still on plywood formwork supported by dense rows of adjustable steel props, rebar starter bars sticking up from the roof columns. Pool pit lined in fresh concrete in front. Workers in white hard hats and orange vests. Olive and pine trees, neighbouring cream houses with black water tanks on their roofs, green hills behind, faint sea haze. Photoreal, documentary, no text, no logos.</div>
+    <div class="prompt">Scene 6 keyframe — pipes in the floor
+Top-down interior photo of a villa living room under construction in Lebanon, bare concrete floor slab between hollow concrete block walls. Laid directly on the slab: green PPR water pipes, grey PVC drain pipes and orange corrugated electrical conduits running to floor boxes, neatly clipped. One corner already covered with beige sand fill and a grey screed, a stack of cream marble tiles ready. Daylight from a large opening. Photoreal, precise, clean site, no pipes on the walls, no text.</div>
+  </div>
+
+  <h2><span>06</span>Production steps &amp; timeline</h2>
+  <ol class="steps">
+    <li><b>You approve this plan and the moodboard.</b> Any change to the villa or the shot list happens here, not after generation.</li>
+    <li><b>Test (½ day).</b> One keyframe (scene 6, pipes in the floor) and one clip. I measure the real credit cost and send you both for a realism check.</li>
+    <li><b>Master villa sheet (½ day).</b> The finished villa in 4 views. You approve the design.</li>
+    <li><b>Keyframes (1–2 days).</b> All 17, built backwards from the master. You approve them as a contact sheet.</li>
+    <li><b>Clips (1–2 days).</b> 17 drone moves, with retakes where the building drifts.</li>
+    <li><b>Site build (1–2 days).</b> Frames extracted and wired into the scroll, the Promised/Delivered section, final copy in EN/FR/AR.</li>
+    <li><b>QA (½ day).</b> Your laptop (4K), phones, slow connection, all three languages.</li>
+    <li><b>Your review.</b> You decide what goes to DAR. Nothing is published by me.</li>
+  </ol>
+  <p class="note">About 6–8 working days from approval, depending on how many retakes the AI needs.</p>
+
+  <h2><span>07</span>Higgsfield cost</h2>
+  <div class="tablewrap">
+    <table style="min-width:640px">
+      <thead><tr><th>Item</th><th>Quantity</th><th class="num">Credits (estimate)</th></tr></thead>
+      <tbody>
+        <tr><td>Master villa sheet + 17 keyframes, ≈ 4 tries each, 4K</td><td>≈ 75 images</td><td class="num">170 – 280</td></tr>
+        <tr><td>Drone clips, 8–10 s, Pro quality, no sound</td><td>17 clips</td><td class="num">340 – 480</td></tr>
+        <tr><td>Retakes (AI video usually needs 2–3 tries per shot)</td><td>≈ 22 extra clips</td><td class="num">450 – 650</td></tr>
+        <tr><td>Upscales for the 4K hero frames</td><td>≈ 6</td><td class="num">30 – 60</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td></td><td class="num">≈ 1,000 – 1,450</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="grid2">
+    <div class="box"><h3 style="margin-top:0">Recommended: $105</h3><p style="margin:0">Plus monthly ($49, 1,000 credits) + one 1,000-credit pack ($55.56). 2,000 credits covers the job with room for extra retakes. Plus is the minimum plan for 1080p/4K Seedance video.</p></div>
+    <div class="box"><h3 style="margin-top:0">If you want true 4K video: $129</h3><p style="margin:0">Ultra monthly, 3,000 credits. Also lets us render a separate vertical cut for phones instead of cropping.</p></div>
+  </div>
+  <p class="note">Higgsfield doesn't publish a fixed price per clip, so these are estimates from their plan figures. The exact cost shows before each generation, and the test in step 2 gives the real number before we spend the rest. Your account currently has 2.5 credits on Starter.</p>
+
+  <h2><span>08</span>What we need from DAR</h2>
+  <ul>
+    <li>OK to show a <b>concept villa</b> (not a real project) on their site, labelled as such.</li>
+    <li>Real site photos of their teams and work, for the Services section and to keep the vests, helmets and trucks accurate.</li>
+    <li>Their logo files (SVG) and brand fonts, if any.</li>
+    <li>A native review of the Arabic copy.</li>
+    <li>Confirmation of the outdoor programme: 3 parking spaces, a full-size tennis court and a basketball half court.</li>
+  </ul>
+
+  <h2><span>09</span>Decisions for you</h2>
+  <ul>
+    <li>Recommended plan ($105) or Ultra ($129)?</li>
+    <li>Keep the owner and engineer on screen in the handover scene, or show only hands and keys?</li>
+    <li>Night ending (current) or golden-hour ending?</li>
+  </ul>
+
+  <footer>Prepared by Olon · Draft for internal review · Not for client delivery until approved.</footer>
+</main>
+</body>
+</html>

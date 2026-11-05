@@ -1,0 +1,12 @@
+node_modules/
+dist/
+# Raw sources, keyframes and placeholder downloads (1.8 GB): kept on the laptop only
+media-src/
+# Placeholder footage that is not ours (Pinterest / Pexels): never publish
+public/ch/placeholder.mp4
+public/ch/scrub.mp4
+public/ch/scrub-hq.mp4
+public/ch/stills/
+public/ch/p*.jpg
+.DS_Store
+Thumbs.db
