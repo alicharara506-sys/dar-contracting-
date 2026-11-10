@@ -4,6 +4,7 @@
 // Everything is procedural geometry; each part registers an updater that reads p.
 import * as THREE from 'three';
 import { drawSitePlan, SHEET } from './plan-drawing.js';
+import { LAYOUT, CX, CZ, VILLA, UPPER, VPIT, POOL, TENNIS, BASKET, CARPORT, DRIVE, PLOT } from './layout.js';
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = t => t * t * (3 - 2 * t);
@@ -26,17 +27,7 @@ export const STAGES = [
 
 const ORANGE = 0xd94f1e;
 const L1 = 3.6, L2 = 7.0, SL = 0.3; // floor levels (top of slab) and slab thickness
-const CX = [-10, -4, 2, 8, 14], CZ = [-14, -7, 0]; // column grid: 6 m bays, 7 m deep
-// Site layout [x0, x1, z0, z1]. +z faces the street and the camera.
-const VILLA = [-10, 14, -14, 0]; // 24 x 14 m ground floor (336 m2)
-const UPPER = [-14, 14, -14, 0]; // first floor cantilevers 4 m to the west, over the entry porch
-const VPIT = [-11, 15, -15, 1];
-const POOL = [-4, 10, 4, 9];
-const TENNIS = [17, 29, -21, 6]; // full tennis court 10.97 x 23.77 m with run-off, fenced
-const BASKET = [17, 29, 9, 21]; // basketball half court 12 x 12 m
-const CARPORT = [-27, -15, -14, -4];
-const DRIVE = [-24, -18, -4, 22];
-const PLOT = [-30, 30, -22, 22];
+// Site layout [x0, x1, z0, z1] lives in layout.js. +z faces the street and the camera.
 
 const KEYS = [
   [0.0, [-1, 84, 7], [-1, 0, -1]],
@@ -330,7 +321,6 @@ export function createScene(canvas, { lowPower = false, onHover = () => {} } = {
   sheetTex.colorSpace = THREE.SRGBColorSpace; sheetTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
   // Sheet resolution: as sharp as the GPU allows (phones zoom into the villa, so they need it most).
   const sheetPxPerM = Math.min(52, Math.floor(renderer.capabilities.maxTextureSize / SHEET.w));
-  const LAYOUT = { VILLA, UPPER, POOL, TENNIS, BASKET, CARPORT, DRIVE, PLOT, CX, CZ };
   const drawSheet = () => { drawSitePlan(sheetCanvas, LAYOUT, sheetPxPerM); sheetTex.needsUpdate = true; };
   drawSheet();
   // A plotter sweep draws the sheet in from left to right on load (independent of scroll).

@@ -3,7 +3,15 @@ import Lenis from 'lenis';
 import { createScene, STAGES } from './scene.js';
 import { DICT, LANGS } from './i18n.js';
 import { createMotion } from './motion.js';
+import { createPromise } from './promise.js';
+import { createServices } from './services.js';
+import { createPrinciples } from './principles.js';
+import { createPartners } from './globe.js';
+import { createContours } from './contours.js';
+import { createContact } from './contact.js';
+import { createNav } from './nav.js';
 import { createFilm } from './film.js';
+import { createHero } from './hero.js';
 
 const $ = s => document.querySelector(s);
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -40,20 +48,68 @@ addEventListener('resize', () => scene.resize());
 // The tour itself is real footage; the 3D model only renders inside explore mode.
 scene.setPaused(true);
 const film = createFilm(document.body, { reduced });
+const nav = createNav({ reduced, onLang: code => applyLang(code) }); // the header: floating glass bar, active section, language menu, phone sheet
 const motion = createMotion({ reduced, coarse }); // text motion graphics (headlines, lit words, tilt cards, flip cards, bands)
+const promise = createPromise({ reduced }); // the promise, lit word by word as you scroll
+const services = createServices({ reduced, coarse, lowPower }); // the trade explorer: the services shown live on the plan
+createPrinciples({ reduced, lowPower }); // what we stand by / what we refuse, one list that flips
+createPartners({ reduced, lowPower, coarse }); // partners: the globe, from the UK to Lebanon
+if ($('.pa-sec')) createContours($('.pa-sec'), { focus: $('.pa-globe'), reduced, lowPower });
+const contact = createContact({ reduced, lowPower }); // contact: the WhatsApp chat writing itself as you type
+// The opening: the Reality Lens over the drawing. It needs the film's sheet on the page to line up with it.
+let hero = null;
+createHero($('#hero'), { reduced, coarse, lowPower, onNight: () => onScroll() }).then(h => { document.body.classList.add('has-hero');
+  hero = h; h.setLang(t, lang === 'ar'); h.setProgress(lastP);
+}).catch(err => { console.error(err); $('#hero').remove(); document.body.classList.remove('hero-on'); });
+
+// ---------- the viewfinder HUD around the stage text ----------
+// the title decodes letter by letter into each new stage (Latin scripts; Arabic words keep their own entrance)
+function decode(h) {
+  if (!h || reduced || document.documentElement.lang === 'ar') return;
+  const GLYPHS = 'ABCDEFGHJKLMNPRSTUVWXYZ0123456789/+#';
+  h.querySelectorAll('.w').forEach((w, wi) => {
+    const final = w.dataset.final || w.textContent; w.dataset.final = final;
+    let frame = 0; const start = 6 + wi * 3, len = final.length;
+    cancelAnimationFrame(w._raf);
+    const step = () => {
+      frame++;
+      const done = Math.max(0, Math.floor((frame - start) / 1.6));
+      w.textContent = [...final].map((c, i) => (i < done || c === ' ' || c === '.' ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join('');
+      if (done < len) w._raf = requestAnimationFrame(step); else w.textContent = final;
+    };
+    w._raf = requestAnimationFrame(step);
+  });
+}
+// the viewfinder frames the active card: it follows its height
+function sizeVF() { const el = panelEls[current]; panels.classList.toggle('vf-on', !!el); if (el) panels.style.setProperty('--ph', `${el.offsetHeight}px`); }
+addEventListener('resize', () => requestAnimationFrame(sizeVF));
+// the stages that carry a text card, numbered 01..08 on the rail
+const CARD_STAGES = STAGES.map((s, i) => (s.id === 'plan' || s.id === 'handover' ? -1 : i)).filter(i => i >= 0);
+$('.vf-rail').innerHTML = CARD_STAGES.map(() => '<i></i>').join('');
+// REC timecode from the film's own playhead (24 frames a second)
+{
+  const tc = $('.vf-tc'), pad = n => String(n).padStart(2, '0');
+  const tick = () => {
+    const v = document.querySelector('.film video');
+    if (v && document.body.classList.contains('in-journey')) { const t = v.currentTime || 0; tc.textContent = `${pad(Math.floor(t / 60))}:${pad(Math.floor(t % 60))}:${pad(Math.floor((t % 1) * 24))}`; }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
 
 // ---------- stage panels ----------
 // The handover stage has no text card: the finished villa at dusk is shown on its own.
+// The plan stage has none either: the hero (Reality Lens) carries the headline over the drawing.
 const panels = $('#panels');
-const panelEls = STAGES.map((st, i) => {
-  if (st.id === 'handover') return null;
+const panelEls = STAGES.map(st => {
+  if (st.id === 'handover' || st.id === 'plan') return null;
   const a = document.createElement('article');
   a.className = 'panel'; a.dataset.stage = st.id;
-  const h = document.createElement(i === 0 ? 'h1' : 'h2');
+  const h = document.createElement('h2');
   h.className = 't'; h.dataset.split = `s.${st.id}.t`;
   a.innerHTML = `<p class="k" data-i18n="s.${st.id}.k"></p>`;
   a.append(h);
-  const b = document.createElement('p'); b.className = 'b'; b.dataset.i18n = `s.${st.id}.b`; a.append(b);
+  const b = document.createElement('p'); b.className = 'b'; b.dataset.splitb = `s.${st.id}.b`; a.append(b);
   panels.append(a);
   return a;
 });
@@ -108,19 +164,43 @@ function applyLang(next) {
       if (i < arr.length - 1) el.append(' ');
     });
   });
+  // stage paragraphs: split into words that light up as you scroll through the stage
+  document.querySelectorAll('[data-splitb]').forEach(el => {
+    el.textContent = '';
+    (t[el.dataset.splitb] || '').split(' ').forEach((w, i, arr) => {
+      const s = document.createElement('span'); s.className = 'bw'; s.textContent = w; el.append(s);
+      if (i < arr.length - 1) el.append(' ');
+    });
+  });
   document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', t[el.dataset.i18nAria] || ''));
   $('#xp-hint').textContent = t[coarse ? 'explore.hint.touch' : 'explore.hint'];
   pins.forEach((el, k) => (el.querySelector('span').textContent = t[`zone.${k}`]));
   if (activePin) showCard(activePin);
-  $('#lang').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  document.querySelectorAll('#lang button, .mnav-langs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  $('.lng-cur').textContent = LANGS[lang];
+  nav?.refresh();
   try { localStorage.setItem('dar-lang', lang); } catch (e) { /* storage blocked */ }
   const url = new URL(location.href); url.searchParams.set('lang', lang); history.replaceState(null, '', url);
   motion.refresh(DICT, lang);
+  // styled headings: the words after the first sentence flow in terracotta (or, with data-acc="n", the last n words)
+  document.querySelectorAll('h2.svc-t').forEach(h => {
+    const words = [...h.querySelectorAll('.kw')];
+    const n = +h.dataset.acc || 0;
+    const end = n ? words.length - 1 - n : words.findIndex(w => /[.!?؟]$/.test(w.textContent.trim()));
+    words.forEach((w, i) => w.classList.toggle('acc', end >= 0 && end < words.length - 1 && i > end));
+  });
+  promise?.setLang(DICT, lang);
+  services?.setLang(t, rtl);
+  contact?.setLang(t);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => scene.setLang(t, rtl));
+  hero?.setLang(t, rtl);
+  requestAnimationFrame(() => typeof sizeVF === 'function' && panelEls && sizeVF());
+  queueMicrotask(() => setGauge(lastP)); // the gauge is set up further down; refresh its stage name once it exists
 }
 Object.entries(LANGS).forEach(([code, label]) => {
   const b = document.createElement('button');
-  b.type = 'button'; b.lang = code; b.dataset.lang = code; b.textContent = label;
+  b.type = 'button'; b.lang = code; b.dataset.lang = code;
+  b.innerHTML = `<b>${label}</b><span>${{ en: 'English', fr: 'Français', ar: 'العربية' }[code]}</span>`; // a row in the language menu
   b.setAttribute('aria-label', { en: 'English', fr: 'Français', ar: 'العربية' }[code]);
   b.addEventListener('click', () => applyLang(code));
   $('#lang').append(b);
@@ -146,10 +226,17 @@ const journeyLen = () => journey.offsetHeight - innerHeight;
 
 // Logo story gauge: the DAR circle is the pivot and the line sweeps a half-turn around it,
 // from 0° (flat, empty land) to 180° (the turn complete, the villa delivered).
-const gBar = $('#g-bar'), gPct = $('#g-pct');
+// Drawn as a protractor in the sheet's language, with the current stage's name under the angle.
+const gBar = $('#g-bar'), gPct = $('#g-pct'), gStage = $('#g-stage');
+$('#g-ticks').innerHTML = Array.from({ length: 19 }, (_, k) => {
+  const a = Math.PI - (k / 18) * Math.PI, r1 = k % 3 ? 85 : 80;
+  return `<line x1="${(100 + Math.cos(a) * 90).toFixed(2)}" y1="${(100 - Math.sin(a) * 90).toFixed(2)}" x2="${(100 + Math.cos(a) * r1).toFixed(2)}" y2="${(100 - Math.sin(a) * r1).toFixed(2)}" />`;
+}).join('');
 function setGauge(p) {
-  gBar.setAttribute('transform', `rotate(${-180 * p} 80 100)`);
+  gBar.setAttribute('transform', `rotate(${-180 * p} 100 100)`);
   gPct.textContent = Math.round(180 * p) + '°';
+  const st = STAGES.find(s => p >= s.a && p < s.b) || STAGES[STAGES.length - 1];
+  gStage.textContent = t[`s.${st.id}.n`] || '';
 }
 
 const pinned = params.has('p') ? clamp(parseFloat(params.get('p'))) : null; // QA: ?p=0.5 pins the build stage
@@ -160,10 +247,11 @@ function onScroll() {
   const p = pinned ?? clamp(-rect.top / journeyLen());
   scene.setProgress(p);
   film.setProgress(p);
+  hero?.setProgress(p);
   film.setVisible(rect.bottom > 0);
   $('#bar').style.transform = `scaleX(${p})`;
   setGauge(p);
-  document.body.classList.toggle('on-paper', p < 0.1); // dark HUD ink while the white plan sheet is on screen
+  document.body.classList.toggle('on-paper', p < 0.1 && !document.body.classList.contains('hero-night')); // dark HUD ink while the white plan sheet is on screen
   // On phones the hint teaches both gestures, so it stays until the first swipe or the land stage.
   // Upright phones keep the 'turn your phone' note while the drawing is on screen; elsewhere the scroll hint fades at once.
   const upright = innerWidth < 761 && innerHeight > innerWidth;
@@ -178,6 +266,18 @@ function onScroll() {
     if (current !== -1) buzz(8); // haptic tick as each construction stage begins
     current = idx;
     panelEls.forEach((el, i) => el && el.classList.toggle('on', i === idx));
+    if (panelEls[idx]) decode(panelEls[idx].querySelector('h2'));
+    sizeVF();
+    const k = CARD_STAGES.indexOf(idx);
+    $('.vf-n').textContent = k >= 0 ? `${String(k + 1).padStart(2, '0')} / ${String(CARD_STAGES.length).padStart(2, '0')}` : '';
+    $('.vf-rail').querySelectorAll('i').forEach((r, j) => { r.classList.toggle('done', j < k); r.classList.toggle('on', j === k); });
+  }
+  // inside a stage: the rail segment fills and the paragraph lights word by word
+  {
+    const st = STAGES[idx], f = clamp((p - st.a) / (st.b - st.a));
+    $('.vf-rail i.on')?.style.setProperty('--f', f.toFixed(3));
+    const words = panelEls[idx]?.querySelectorAll('.bw');
+    if (words) { const n = words.length, lit = reduced ? n : clamp((f - 0.04) / 0.55) * (n + 1); words.forEach((w, i) => w.style.setProperty('--on', clamp(lit - i).toFixed(2))); }
   }
   journeyVisible = rect.bottom > innerHeight * 0.5;
   document.body.classList.toggle('in-journey', journeyVisible);
@@ -330,6 +430,11 @@ const io = new IntersectionObserver(entries => entries.forEach(en => {
   if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
 }), { rootMargin: '0px 0px -10% 0px' });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+{
+  // دار draws itself behind the principles when the section arrives
+  const sec = $('.pr-sec');
+  if (sec) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { sec.classList.add('drawn'); o.disconnect(); } }, { rootMargin: '0px 0px -25% 0px' }).observe(sec);
+}
 
 // ---------- WhatsApp form (opens WhatsApp; the visitor sends it themselves) ----------
 $('#wa-form').addEventListener('submit', e => {
