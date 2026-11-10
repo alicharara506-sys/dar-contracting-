@@ -9,7 +9,8 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&text=%D8%AF%D8%A7%D8%B1&display=swap" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"GeneralContractor","name":"DAR Trading & Contracting","slogan":"Results First. Payment Follows.","telephone":"+96179004108","email":"darcontracting2026@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Beirut","addressCountry":"LB"},"areaServed":"Lebanon"}
   </script>
@@ -29,15 +30,41 @@
       <span class="word">DAR<small data-i18n="brand.sub">Trading & Contracting</small></span>
     </a>
     <nav class="links" aria-label="Main">
+      <span class="nav-pill" aria-hidden="true"></span>
       <a href="#journey" data-i18n="nav.process">How we build</a>
       <a href="#services" data-i18n="nav.services">Services</a>
       <a href="#principles" data-i18n="nav.principles">Principles</a>
       <a href="#partners" data-i18n="nav.partners">Partners</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
-    <div class="lang" role="group" aria-label="Language" id="lang"></div>
-    <a class="btn btn-solid" href="#contact" data-i18n="cta.quote">Get a quote</a>
+    <!-- language: a globe button opening a small menu (the choices are filled in by main.js) -->
+    <div class="lng">
+      <button type="button" class="lng-btn" aria-haspopup="true" aria-expanded="false" aria-controls="lang" aria-label="Language">
+        <svg class="lng-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/></svg>
+        <span class="lng-cur">EN</span>
+        <svg class="lng-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+      </button>
+      <div class="lang lng-menu" role="group" aria-label="Language" id="lang"></div>
+    </div>
+    <a class="btn btn-solid btn-cta top-cta" href="#contact"><span class="cta-gloss"></span><span class="cta-streak"></span><span class="cta-t" data-i18n="cta.quote">Get a quote</span></a>
+    <button type="button" class="burger" aria-expanded="false" aria-controls="mnav" aria-label="Menu"><i></i><i></i></button>
+    <span class="top-progress" aria-hidden="true"><i></i></span>
   </header>
+  <!-- phones: the menu as a full-screen sheet -->
+  <div class="mnav" id="mnav" hidden>
+    <nav class="mnav-links" aria-label="Main">
+      <a href="#journey" style="--i:0"><span class="mnav-n">01</span><span data-i18n="nav.process">How we build</span></a>
+      <a href="#services" style="--i:1"><span class="mnav-n">02</span><span data-i18n="nav.services">Services</span></a>
+      <a href="#principles" style="--i:2"><span class="mnav-n">03</span><span data-i18n="nav.principles">Principles</span></a>
+      <a href="#partners" style="--i:3"><span class="mnav-n">04</span><span data-i18n="nav.partners">Partners</span></a>
+      <a href="#contact" style="--i:4"><span class="mnav-n">05</span><span data-i18n="nav.contact">Contact</span></a>
+    </nav>
+    <div class="mnav-foot" style="--i:5">
+      <div class="mnav-langs" role="group" aria-label="Language"><button type="button" data-lang="en">English</button><button type="button" data-lang="fr">Français</button><button type="button" data-lang="ar" lang="ar">العربية</button></div>
+      <a class="btn btn-solid btn-cta mnav-cta" href="#contact"><span class="cta-gloss"></span><span class="cta-streak"></span><span class="cta-t" data-i18n="cta.quote">Get a quote</span></a>
+      <a class="ft-wa mnav-wa" href="https://wa.me/96179004108" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg><span data-i18n="ft.wa">Chat on WhatsApp</span></a>
+    </div>
+  </div>
 
   <canvas id="scene" aria-hidden="true"></canvas>
 
@@ -45,11 +72,101 @@
     <!-- Scroll journey: tall section; the HUD stays pinned while the 3D scene builds behind it -->
     <section id="journey" class="journey" aria-label="How we build">
       <div class="hud">
-        <div class="panels" id="panels"></div>
+      <!-- The opening: Reality Lens over the drawing (src/hero.js). It sits exactly on the film's own copy
+           of the drawing and crossfades into it as the visitor starts scrolling. -->
+      <div class="hero" id="hero" aria-label="DAR">
+        <canvas class="hero-gl" aria-hidden="true"></canvas>
+        <svg class="hl" aria-hidden="true"><g class="hl-sel"></g><rect class="hl-rect" /><g class="hl-dims"></g></svg>
+        <div class="rim" aria-hidden="true">
+          <svg viewBox="-120 -120 240 240">
+            <defs><path id="rim-path" d="M 0,-108 a 108,108 0 1,1 -0.01,0" /></defs>
+            <circle r="100" class="rim-glass" />
+            <circle r="100" class="rim-line" />
+            <g class="rim-spin">
+              <circle r="104" class="rim-thin" />
+              <g class="rim-ticks"></g>
+              <text class="rim-text"><textPath href="#rim-path" startOffset="0"></textPath></text>
+            </g>
+            <g class="rim-stops"></g>
+            <circle r="100" class="rim-stage" pathLength="600" />
+            <g class="rim-knob"><circle r="7" class="knob" /><path d="M-3 -1.5 0 -4.5 3 -1.5M-3 1.5 0 4.5 3 1.5" class="knob-ar" /></g>
+          </svg>
+          <span class="stage-tag"></span>
+          <span class="coords" dir="ltr"></span>
+        </div>
+        <aside class="hcard" aria-live="polite" hidden>
+          <p class="hcard-k"></p>
+          <h3 class="hcard-t"></h3>
+          <p class="hcard-size"></p>
+          <ul class="hcard-spec"></ul>
+          <p class="hcard-add"></p>
+          <small data-i18n="zone.concept">Concept villa for illustration</small>
+        </aside>
+        <div class="hero-copy">
+          <div class="hero-head">
+            <p class="kicker"><span class="mark ping" aria-hidden="true"><i></i><b></b></span><span class="kicker-t" data-i18n="s.plan.k">DAR Trading &amp; Contracting</span></p>
+            <h1 class="plot-title" aria-label="Results First. Payment Follows."><span class="line" aria-hidden="true">Results First.</span> <span class="line" aria-hidden="true">Payment Follows.</span></h1>
+            <div class="dimline" aria-hidden="true"><i class="dl-line"></i><span class="dl-ticks"></span><b class="dl-mark"></b></div>
+            <p class="lede"></p>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-solid btn-cta magnetic" href="#contact"><span class="cta-gloss"></span><span class="cta-streak"></span><span class="cta-spot"></span><span class="cta-t" data-i18n="ch.cta">Start your project</span><span class="arw" aria-hidden="true"><i>→</i><i>→</i></span></a>
+            <button type="button" class="btn btn-hold">
+              <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" class="hold-bg" /><circle cx="18" cy="18" r="15" class="hold-fg" /></svg>
+              <span data-i18n="hero.hold">Hold to see it all</span>
+            </button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="tl">
+            <div class="tl-head"><span data-i18n="tb.stage">Build stage</span><b class="tl-name"></b></div>
+            <div class="tl-track">
+              <input type="range" class="tl-range" min="0" max="6" step="0.01" value="6" data-i18n-aria="tb.stage" aria-label="Build stage" />
+              <ol class="tl-stops"></ol>
+            </div>
+          </div>
+          <div class="tb-sep" aria-hidden="true"></div>
+          <div class="seg" role="radiogroup">
+            <button type="button" role="radio" aria-checked="true" data-trade="" data-i18n="xr.fin">Finishes</button>
+            <button type="button" role="radio" aria-checked="false" data-trade="0"><i class="sw s0"></i><span data-i18n="xr.str">Structure</span></button>
+            <button type="button" role="radio" aria-checked="false" data-trade="1"><i class="sw s1"></i><span data-i18n="xr.plu">Plumbing</span></button>
+            <button type="button" role="radio" aria-checked="false" data-trade="2"><i class="sw s2"></i><span data-i18n="xr.ele">Electrical</span></button>
+          </div>
+          <div class="tb-sep" aria-hidden="true"></div>
+          <button type="button" class="dusk" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><g class="sun"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" /></g><path class="moon" d="M19.5 14.6A8 8 0 1 1 9.4 4.5a6.3 6.3 0 0 0 10.1 10.1Z" /></svg>
+            <span class="dusk-l"></span>
+          </button>
+        </div>
+        <aside class="scope" hidden>
+          <button type="button" class="scope-head" aria-expanded="true">
+            <span class="mark" aria-hidden="true"><i></i><b></b></span><b data-i18n="sc.title">My project</b><span class="scope-n">0</span>
+          </button>
+          <div class="scope-body">
+            <ul class="scope-list"></ul>
+            <p class="scope-l" data-i18n="sc.trades">Trades I need</p>
+            <div class="scope-trades"></div>
+            <a class="btn scope-send" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9 0-1.4.7-2 1-2.3.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.1.3.7 1.1 1.4 1.8.9.8 1.7 1.1 2 1.2.2.1.4.1.5-.1l.7-.9c.2-.2.3-.2.6-.1l1.9.9c.3.1.4.2.5.3 0 .1 0 .7-.2 1.4Z"/></svg>
+              <span data-i18n="ct.form.send">Send on WhatsApp</span>
+            </a>
+            <button type="button" class="scope-clear" data-i18n="sc.clear">Clear</button>
+          </div>
+        </aside>
+      </div>
+        <div class="panels" id="panels">
+          <!-- the viewfinder around the stage text: corner brackets, REC and the film's own timecode, the stage rail -->
+          <div class="vf" aria-hidden="true">
+            <i class="vf-c c-tl"></i><i class="vf-c c-tr"></i><i class="vf-c c-bl"></i><i class="vf-c c-br"></i>
+            <div class="vf-top"><span class="vf-rec"><b></b>REC</span><time class="vf-tc">00:00:00</time><span class="vf-n"></span></div>
+            <div class="vf-rail"></div>
+          </div>
+        </div>
         <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+        <!-- protractor: DAR's logo story, the line turns around the circle from 0° (the drawing) to 180° (handover) -->
         <div class="gauge" aria-hidden="true">
-          <svg viewBox="0 0 160 120"><path d="M20 100 A60 60 0 0 1 140 100" class="gauge-ground" /><circle id="g-dot" cx="80" cy="100" r="9" /><rect id="g-bar" x="93" y="97" width="57" height="6" /></svg>
-          <b id="g-pct">0°</b>
+          <svg viewBox="0 0 200 112"><path d="M10 100 A90 90 0 0 1 190 100" class="gauge-ground" /><g id="g-ticks"></g><line x1="10" y1="100" x2="190" y2="100" class="gauge-base" /><circle id="g-dot" cx="100" cy="100" r="7" /><rect id="g-bar" x="110" y="97.5" width="70" height="5" /></svg>
+          <div class="gauge-l"><b id="g-pct">0°</b><span id="g-stage"></span></div>
         </div>
         <p class="hint" id="hint"><span class="h-scroll" data-i18n="hint.scroll">Scroll to build</span><span class="h-turn" data-i18n="hint.turn">Turn your phone to see the full plan</span><i aria-hidden="true"></i></p>
         <button type="button" class="explore-btn" id="explore-btn">
@@ -60,111 +177,216 @@
     </section>
 
     <div class="content">
-      <!-- kinetic band: the promise in three languages; speed and lean follow the scroll -->
-      <div class="marquee" aria-hidden="true"><div class="mq-track" data-mq="promise"></div></div>
-      <section id="services" class="sec">
-        <p class="kicker reveal" data-i18n="srv.k">Services</p>
-        <h2 class="reveal" data-i18n="srv.t">Full-service delivery. From design to handover.</h2>
-        <div class="cards">
-          <article class="card reveal tilt">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40h36M10 40V22l14-10 14 10v18M18 40V28h12v12"/></svg>
-            <h3 data-i18n="srv.fin.t">Interior & exterior finishing</h3><p data-i18n="srv.fin.b"></p>
-          </article>
-          <article class="card reveal tilt">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 14h20a6 6 0 0 1 6 6v20M28 14V8M34 34h6M14 14v-4h8v4"/><circle cx="34" cy="42" r="2"/></svg>
-            <h3 data-i18n="srv.plu.t">Plumbing</h3><p data-i18n="srv.plu.b"></p>
-          </article>
-          <article class="card reveal tilt">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M26 4 12 28h12l-2 16 14-24H24z"/></svg>
-            <h3 data-i18n="srv.ele.t">Electrical</h3><p data-i18n="srv.ele.b"></p>
-          </article>
-          <article class="card reveal tilt">
-            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 40 8M8 8h12M8 8v12M28 40h12V28"/><circle cx="24" cy="24" r="4"/></svg>
-            <h3 data-i18n="srv.dpm.t">Design & project management</h3><p data-i18n="srv.dpm.b"></p>
-          </article>
+      <!-- the promise: one sentence on its own screen; its words light up one by one as you scroll -->
+      <section class="promise" id="promise">
+        <div class="promise-pin">
+          <div class="promise-glow" aria-hidden="true"></div>
+          <p class="kicker promise-k" data-i18n="pm.k">Our promise</p>
+          <h2 class="promise-t"></h2>
+          <div class="promise-rule" aria-hidden="true"><i></i></div>
+          <p class="promise-b" data-i18n="pm.b">You see the work done, stage by stage, before you pay for it.</p>
+          <p class="promise-langs" aria-hidden="true"></p>
+        </div>
+      </section>
+      <section id="services" class="sec svc-sec">
+        <canvas class="sec-bg" aria-hidden="true"></canvas>
+        <p class="kicker reveal svc-k"><span class="k-ping" aria-hidden="true"></span><span data-i18n="srv.k">Services</span></p>
+        <h2 class="reveal svc-t" data-i18n="srv.t">Full-service delivery. From design to handover.</h2>
+        <div class="svc-rule reveal" aria-hidden="true"><i class="sr-line"></i><span class="sr-ticks"><i style="--k:0"><b>01</b></i><i style="--k:1"><b>02</b></i><i style="--k:2"><b>03</b></i><i style="--k:3"><b>04</b></i></span><i class="sr-mark"></i></div>
+        <!-- trade explorer: the four services shown live on the villa's own plan (src/services.js) -->
+        <div class="svx reveal">
+          <div class="svx-tabs" role="tablist" data-i18n-aria="srv.k" aria-label="Services">
+            <button type="button" class="svx-tab" role="tab" id="svx-tab-fin" data-k="fin" aria-controls="svx-panel" aria-selected="true">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40h36M10 40V22l14-10 14 10v18M18 40V28h12v12"/></svg>
+              <span class="svx-tt"><b data-i18n="srv.fin.t"></b><span class="svx-b" data-i18n="srv.fin.b"></span></span>
+              <i class="svx-bar" aria-hidden="true"><i></i></i>
+            </button>
+            <button type="button" class="svx-tab" role="tab" id="svx-tab-plu" data-k="plu" aria-controls="svx-panel" aria-selected="false" tabindex="-1">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 14h20a6 6 0 0 1 6 6v20M28 14V8M34 34h6M14 14v-4h8v4"/><circle cx="34" cy="42" r="2"/></svg>
+              <span class="svx-tt"><b data-i18n="srv.plu.t"></b><span class="svx-b" data-i18n="srv.plu.b"></span></span>
+              <i class="svx-bar" aria-hidden="true"><i></i></i>
+            </button>
+            <button type="button" class="svx-tab" role="tab" id="svx-tab-ele" data-k="ele" aria-controls="svx-panel" aria-selected="false" tabindex="-1">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M26 4 12 28h12l-2 16 14-24H24z"/></svg>
+              <span class="svx-tt"><b data-i18n="srv.ele.t"></b><span class="svx-b" data-i18n="srv.ele.b"></span></span>
+              <i class="svx-bar" aria-hidden="true"><i></i></i>
+            </button>
+            <button type="button" class="svx-tab" role="tab" id="svx-tab-dpm" data-k="dpm" aria-controls="svx-panel" aria-selected="false" tabindex="-1">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 40 8M8 8h12M8 8v12M28 40h12V28"/><circle cx="24" cy="24" r="4"/></svg>
+              <span class="svx-tt"><b data-i18n="srv.dpm.t"></b><span class="svx-b" data-i18n="srv.dpm.b"></span></span>
+              <i class="svx-bar" aria-hidden="true"><i></i></i>
+            </button>
+          </div>
+          <div class="svx-panel" id="svx-panel" role="tabpanel" aria-labelledby="svx-tab-fin">
+            <canvas class="svx-gl" aria-hidden="true"></canvas>
+            <div class="svx-top" aria-hidden="true"><b class="svx-layer"></b><span class="svx-legend"></span></div>
+            <div class="svx-wipe" aria-hidden="true"><i class="svx-wipe-line"></i><span class="svx-knob"><svg viewBox="0 0 24 24"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg></span><span class="svx-wl a" data-i18n="sx.shell">Shell</span><span class="svx-wl b" data-i18n="sx.done">Finished</span></div>
+            <div class="svx-time" aria-hidden="true"><b class="svx-stage"></b><span class="svx-track"><i class="svx-fill"></i><span class="svx-ticks"></span></span></div>
+            <p class="svx-hint" aria-hidden="true"></p>
+            <small class="svx-note" data-i18n="zone.concept">Concept villa for illustration</small>
+          </div>
         </div>
       </section>
 
-      <section id="principles" class="sec">
-        <p class="kicker reveal" data-i18n="pr.k">Why DAR</p>
-        <h2 class="reveal" data-i18n="pr.t">What we stand by. What we refuse.</h2>
-        <div class="split">
-          <div class="col yes reveal tilt">
-            <h3 data-i18n="pr.yes">We believe in</h3>
-            <ul><li data-i18n="pr.y1"></li><li data-i18n="pr.y2"></li><li data-i18n="pr.y3"></li><li data-i18n="pr.y4"></li><li data-i18n="pr.y5"></li></ul>
+      <section id="principles" class="sec pr-sec">
+        <canvas class="sec-bg" aria-hidden="true"></canvas>
+        <!-- دار: the word itself, written large behind the section; it draws itself when the section arrives -->
+        <svg class="pr-dar" viewBox="0 0 1000 520" aria-hidden="true">
+          <defs>
+            <linearGradient id="dar-sheen" x1="0" y1="0" x2="1" y2="0.35"><stop offset="0.3" stop-color="#d94f1e" stop-opacity="0"/><stop offset="0.5" stop-color="#ffb071" stop-opacity="0.34"/><stop offset="0.7" stop-color="#d94f1e" stop-opacity="0"/><animateTransform attributeName="gradientTransform" type="translate" from="-1 0" to="1 0" dur="6.5s" repeatCount="indefinite"/></linearGradient>
+            <filter id="dar-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <text class="d-base" x="500" y="400" text-anchor="middle">دار</text>
+          <text class="d-sheen" x="500" y="400" text-anchor="middle" fill="url(#dar-sheen)">دار</text>
+          <text class="d-spark" x="500" y="400" text-anchor="middle" filter="url(#dar-glow)">دار</text>
+        </svg>
+        <p class="kicker reveal svc-k"><span class="k-ping" aria-hidden="true"></span><span data-i18n="pr.k">Why DAR</span></p>
+        <h2 class="reveal svc-t pr-t" data-i18n="pr.t">What we stand by. What we refuse.</h2>
+        <!-- our principles: one list that flips between what we stand by and what we refuse (src/principles.js) -->
+        <div class="vs reveal" data-side="yes">
+          <div class="vs-toggle" role="group" data-i18n-aria="pr.k" aria-label="Why DAR">
+            <i class="vs-thumb" aria-hidden="true"></i>
+            <button type="button" data-side="yes" aria-pressed="true"><span data-i18n="pr.yes">We believe in</span></button>
+            <button type="button" data-side="no" aria-pressed="false"><span data-i18n="pr.no">We refuse to</span></button>
           </div>
-          <div class="col no reveal tilt">
-            <h3 data-i18n="pr.no">We refuse to</h3>
-            <ul><li data-i18n="pr.n1"></li><li data-i18n="pr.n2"></li><li data-i18n="pr.n3"></li><li data-i18n="pr.n4"></li><li data-i18n="pr.n5"></li></ul>
-          </div>
+          <ol class="vs-rows" aria-live="polite">
+            <li class="vs-row" style="--i:1">
+              <span class="vs-flip">
+                <span class="vs-face yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span data-i18n="pr.y1"></span></span>
+                <span class="vs-face no" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span data-i18n="pr.n1"></span></span>
+              </span>
+            </li>
+            <li class="vs-row" style="--i:2">
+              <span class="vs-flip">
+                <span class="vs-face yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span data-i18n="pr.y2"></span></span>
+                <span class="vs-face no" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span data-i18n="pr.n2"></span></span>
+              </span>
+            </li>
+            <li class="vs-row" style="--i:3">
+              <span class="vs-flip">
+                <span class="vs-face yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span data-i18n="pr.y3"></span></span>
+                <span class="vs-face no" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span data-i18n="pr.n3"></span></span>
+              </span>
+            </li>
+            <li class="vs-row" style="--i:4">
+              <span class="vs-flip">
+                <span class="vs-face yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span data-i18n="pr.y4"></span></span>
+                <span class="vs-face no" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span data-i18n="pr.n4"></span></span>
+              </span>
+            </li>
+            <li class="vs-row" style="--i:5">
+              <span class="vs-flip">
+                <span class="vs-face yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg><span data-i18n="pr.y5"></span></span>
+                <span class="vs-face no" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span data-i18n="pr.n5"></span></span>
+              </span>
+            </li>
+          </ol>
         </div>
         <blockquote class="quote reveal"><span class="mark" aria-hidden="true"><i></i><b></b></span><p class="lit" data-i18n="pr.quote"></p></blockquote>
       </section>
 
-      <section id="partners" class="sec">
-        <p class="kicker reveal" data-i18n="pa.k">Partners</p>
-        <h2 class="reveal" data-i18n="pa.t">Global expertise. Local delivery.</h2>
-        <div class="partners">
-          <!-- flip cards: tap, click or Enter turns the card over -->
-          <article class="partner reveal" tabindex="0" role="button" aria-pressed="false">
-            <div class="flip">
-              <div class="face front tilt">
-                <p class="role" data-i18n="pa.dcp.r"></p>
-                <h3>DCP <span>British Building Materials</span></h3>
-                <span class="flip-hint" data-i18n="pa.flip">Tap to flip</span>
-              </div>
-              <div class="face back">
-                <p data-i18n="pa.dcp.b"></p><p class="by" data-i18n="pa.dcp.by"></p>
-              </div>
-            </div>
+      <section id="partners" class="sec pa-sec">
+        <canvas class="sec-bg" aria-hidden="true"></canvas>
+        <p class="kicker reveal svc-k"><span class="k-ping" aria-hidden="true"></span><span data-i18n="pa.k">Partners</span></p>
+        <h2 class="reveal svc-t" data-i18n="pa.t">Global expertise. Local delivery.</h2>
+        <!-- the globe: an arc of light from the UK (DCP) to Lebanon (DAR, HEK.HOUSE); hover a partner to turn to its home (src/globe.js) -->
+        <div class="pa-stage reveal">
+          <canvas class="pa-globe" aria-hidden="true"></canvas>
+          <span class="pa-pin uk" aria-hidden="true"><b>DCP</b><i data-i18n="pa.uk">United Kingdom</i></span>
+          <span class="pa-pin lb" aria-hidden="true"><b>DAR · HEK.HOUSE</b><i data-i18n="pa.lb">Lebanon</i></span>
+          <article class="pa-card" data-p="dcp" tabindex="0">
+            <p class="pa-role" data-i18n="pa.dcp.r">Materials partner</p>
+            <h3>DCP</h3>
+            <p class="pa-tag">British Building Materials</p>
+            <p class="pa-b" data-i18n="pa.dcp.b"></p>
+            <dl class="pa-stats">
+              <div><dt><span data-count="95" data-suffix="+">95+</span></dt><dd data-i18n="pa.years">years of expertise</dd></div>
+              <div><dt><span data-count="14">14</span></dt><dd data-i18n="pa.sites">manufacturing sites</dd></div>
+              <div><dt><span data-count="30" data-suffix="+">30+</span></dt><dd data-i18n="pa.countries">countries</dd></div>
+            </dl>
+            <p class="pa-by" data-i18n="pa.dcp.by"></p>
           </article>
-          <article class="partner reveal" tabindex="0" role="button" aria-pressed="false">
-            <div class="flip">
-              <div class="face front tilt">
-                <p class="role" data-i18n="pa.hek.r"></p>
-                <h3>HEK.HOUSE <span>Innovating Your Home</span></h3>
-                <span class="flip-hint" data-i18n="pa.flip">Tap to flip</span>
-              </div>
-              <div class="face back">
-                <p data-i18n="pa.hek.b"></p><p class="by" data-i18n="pa.hek.by"></p>
-              </div>
-            </div>
+          <article class="pa-card" data-p="hek" tabindex="0">
+            <p class="pa-role" data-i18n="pa.hek.r">Contracting partner</p>
+            <h3>HEK.HOUSE</h3>
+            <p class="pa-tag">Innovating Your Home</p>
+            <p class="pa-b" data-i18n="pa.hek.b"></p>
+            <dl class="pa-stats">
+              <div><dt><span data-count="2024" data-from="2000">2024</span></dt><dd data-i18n="pa.founded">founded</dd></div>
+              <div><dt data-i18n="pa.lb">Lebanon</dt><dd data-i18n="pa.based">based and building</dd></div>
+            </dl>
+            <p class="pa-by" data-i18n="pa.hek.by"></p>
           </article>
         </div>
       </section>
 
-      <div class="marquee alt" aria-hidden="true"><div class="mq-track" data-mq="services"></div></div>
-      <section id="contact" class="sec contact">
+      <section id="contact" class="sec contact ct-sec">
+        <canvas class="sec-bg" aria-hidden="true"></canvas>
         <div class="contact-copy">
-          <p class="kicker reveal" data-i18n="ct.k">Let's build something that lasts</p>
-          <h2 class="reveal" data-i18n="ct.t">Your long-term business partner.</h2>
-          <p class="lead reveal lit" data-i18n="ct.b"></p>
-          <dl class="facts reveal">
-            <div><dt data-i18n="ct.phone">Phone</dt><dd><a href="tel:+96179004108" dir="ltr">+961 79 004 108</a></dd></div>
-            <div><dt data-i18n="ct.email">Email</dt><dd><a href="mailto:darcontracting2026@gmail.com">darcontracting2026@gmail.com</a></dd></div>
-            <div><dt data-i18n="ct.loc">Location</dt><dd data-i18n="ct.city">Beirut, Lebanon</dd></div>
-          </dl>
+          <p class="kicker reveal svc-k"><span class="k-ping" aria-hidden="true"></span><span data-i18n="ct.k">Let's build something that lasts</span></p>
+          <h2 class="reveal svc-t ct-t" data-acc="2" data-i18n="ct.t">Your long-term business partner.</h2>
+          <p class="lead reveal" data-i18n="ct.b"></p>
+          <!-- how it goes, from the paragraph above: four steps, the last one the promise -->
+          <ol class="ct-steps reveal">
+            <li style="--i:0"><span class="ct-sn">01</span><b data-i18n="ct.s1">We visit</b></li>
+            <li style="--i:1"><span class="ct-sn">02</span><b data-i18n="ct.s2">We quote</b></li>
+            <li style="--i:2"><span class="ct-sn">03</span><b data-i18n="ct.s3">We deliver</b></li>
+            <li style="--i:3" class="last"><span class="ct-sn">04</span><b data-i18n="ct.s4">You pay for verified progress</b></li>
+          </ol>
         </div>
-        <form class="form reveal tilt" id="wa-form">
-          <label><span data-i18n="ct.form.name">Your name</span><input name="name" required autocomplete="name" /></label>
-          <label><span data-i18n="ct.form.type">Project type</span>
-            <select name="type">
-              <option data-i18n="ct.opt.new">New building</option>
-              <option data-i18n="ct.opt.fin">Finishing</option>
-              <option data-i18n="ct.opt.ren">Renovation</option>
-              <option data-i18n="ct.opt.mep">Plumbing or electrical</option>
-              <option data-i18n="ct.opt.other">Other</option>
-            </select>
-          </label>
-          <label><span data-i18n="ct.form.msg">Tell us about the project</span><textarea name="msg" rows="4"></textarea></label>
-          <button class="btn btn-solid" type="submit" data-i18n="ct.form.send">Send on WhatsApp</button>
-          <p class="note" data-i18n="ct.form.note"></p>
-        </form>
+        <!-- the composer: the form, and the WhatsApp chat it will open, writing itself as you type (src/contact.js) -->
+        <div class="ct-compose reveal">
+          <form class="form ct-form" id="wa-form">
+            <label><span data-i18n="ct.form.name">Your name</span><input name="name" required autocomplete="name" /></label>
+            <fieldset class="ct-types"><legend data-i18n="ct.form.type">Project type</legend>
+              <label class="ct-chip"><input type="radio" name="type" data-k="ct.opt.new" checked /><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-6h4v6"/></svg><span data-i18n="ct.opt.new"></span></label>
+              <label class="ct-chip"><input type="radio" name="type" data-k="ct.opt.fin" /><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h11v4H4zM15 9h3v5h-7v6"/></svg><span data-i18n="ct.opt.fin"></span></label>
+              <label class="ct-chip"><input type="radio" name="type" data-k="ct.opt.ren" /><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 6l4 4-9 9H5v-4zM12 8l4 4"/></svg><span data-i18n="ct.opt.ren"></span></label>
+              <label class="ct-chip"><input type="radio" name="type" data-k="ct.opt.mep" /><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 6 13h5l-1 8 7-10h-5z"/></svg><span data-i18n="ct.opt.mep"></span></label>
+              <label class="ct-chip"><input type="radio" name="type" data-k="ct.opt.other" /><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/></svg><span data-i18n="ct.opt.other"></span></label>
+            </fieldset>
+            <label><span data-i18n="ct.form.msg">Tell us about the project</span><textarea name="msg" rows="4"></textarea></label>
+            <button class="btn btn-solid btn-cta ct-send" type="submit"><span class="cta-gloss"></span><span class="cta-streak"></span><span class="cta-t" data-i18n="ct.form.send">Send on WhatsApp</span><span class="arw" aria-hidden="true"><i>→</i><i>→</i></span></button>
+            <p class="note" data-i18n="ct.form.note"></p>
+          </form>
+          <div class="ct-phone" aria-hidden="true">
+            <div class="ct-screen">
+              <div class="ct-status"><time class="ct-clock"></time><span class="ct-island"></span><span class="ct-sig"><i></i><i></i><i></i><i></i><b></b></span></div>
+              <div class="ct-bar"><span class="ct-back">‹</span><span class="ct-avatar"><i></i><b></b></span><span class="ct-who"><b>DAR</b><small>Trading &amp; Contracting</small></span></div>
+              <div class="ct-chat">
+                <p class="ct-day" data-i18n="ct.pv.today">Today</p>
+                <div class="ct-in"><span class="ct-dots"><i></i><i></i><i></i></span><p data-i18n="ct.pv.hi">Hello! Tell us about your project.</p></div>
+                <div class="ct-bubble"><p class="ct-text"></p><span class="ct-meta"><time></time><svg viewBox="0 0 18 11"><path d="M1 6l3 3 6-7M7 9l1 0 6-7"/></svg></span></div>
+                <p class="ct-empty" data-i18n="ct.pv.empty">Your message appears here as you type</p>
+              </div>
+              <div class="ct-input"><span class="ct-field"><em class="ct-ph" data-i18n="ct.pv.ph">Message</em><em class="ct-mirror"></em></span><i><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6z"/></svg></i></div>
+              <span class="ct-glare"></span>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <footer class="foot">
-        <span class="brand small"><span class="mark" aria-hidden="true"><i></i><b></b></span><span class="word">DAR</span></span>
-        <p>© 2026 <span data-i18n="ft.rights">DAR Trading & Contracting. All rights reserved.</span></p>
+      <footer class="ft">
+        <span class="ft-line" aria-hidden="true"></span>
+        <div class="ft-top">
+          <div class="ft-brand">
+            <a class="brand" href="#top" aria-label="DAR"><span class="mark" aria-hidden="true"><i></i><b></b></span><span class="word">DAR<small data-i18n="brand.sub">Trading &amp; Contracting</small></span></a>
+            <p class="ft-tag" data-i18n="ft.tag">Design, build and finish in Lebanon. You pay for verified progress.</p>
+            <a class="ft-wa" href="https://wa.me/96179004108" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3zm4.5 12.6c-.2.5-1.1 1-1.6 1-.4.1-.9.1-1.5-.1a12 12 0 0 1-1.4-.5 10.6 10.6 0 0 1-4-3.6c-.5-.7-.8-1.4-.8-2.1 0-.8.4-1.2.6-1.4.2-.2.4-.2.5-.2h.4c.1 0 .3 0 .5.4l.7 1.6c.1.1.1.3 0 .4l-.3.5-.3.3c-.1.1-.2.3-.1.5.2.3.6 1 1.3 1.6.9.8 1.6 1 1.9 1.2.2.1.4.1.5-.1l.6-.8c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.3.1.1.1.6-.1 1.2z"/></svg><span data-i18n="ft.wa">Chat on WhatsApp</span></a>
+          </div>
+          <nav class="ft-col" aria-labelledby="ft-h-nav"><h3 id="ft-h-nav" data-i18n="ft.nav">Explore</h3><ul>
+            <li><a href="#journey" data-i18n="nav.process">How we build</a></li><li><a href="#services" data-i18n="nav.services">Services</a></li><li><a href="#principles" data-i18n="nav.principles">Principles</a></li><li><a href="#partners" data-i18n="nav.partners">Partners</a></li><li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+          </ul></nav>
+          <nav class="ft-col" aria-labelledby="ft-h-svc"><h3 id="ft-h-svc" data-i18n="srv.k">Services</h3><ul><li><a href="#services" data-svx="fin" data-i18n="srv.fin.t"></a></li><li><a href="#services" data-svx="plu" data-i18n="srv.plu.t"></a></li><li><a href="#services" data-svx="ele" data-i18n="srv.ele.t"></a></li><li><a href="#services" data-svx="dpm" data-i18n="srv.dpm.t"></a></li></ul></nav>
+          <div class="ft-col ft-contact"><h3 data-i18n="nav.contact">Contact</h3><ul>
+            <li class="ft-fact"><small data-i18n="ct.phone">Phone</small><span class="ft-row"><a href="tel:+96179004108" dir="ltr">+961 79 004 108</a><button type="button" class="ct-copy" data-copy="+96179004108" data-i18n="ct.copy">Copy</button></span></li>
+            <li class="ft-fact"><small data-i18n="ct.email">Email</small><span class="ft-row"><a href="mailto:darcontracting2026@gmail.com">darcontracting2026@gmail.com</a><button type="button" class="ct-copy" data-copy="darcontracting2026@gmail.com" data-i18n="ct.copy">Copy</button></span></li>
+            <li class="ft-fact"><small data-i18n="ct.loc">Location</small><span class="ft-row"><span data-i18n="ct.city">Beirut, Lebanon</span></span></li>
+          </ul></div>
+        </div>
+        <div class="ft-bottom">
+          <p>© 2026 <span data-i18n="ft.rights">DAR Trading &amp; Contracting. All rights reserved.</span></p>
+        </div>
       </footer>
     </div>
   </main>

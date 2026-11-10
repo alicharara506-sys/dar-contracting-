@@ -3,6 +3,8 @@
 // black ink on white paper, axis grid with bubbles, dimension strings, furniture, cars, trees, title block.
 // The layout passed in is the same one the 3D scene builds, so the drawing matches the villa exactly.
 
+import { TREES, HEDGE, WALLS } from './layout.js';
+
 const INK = '#1b1b1b', MID = '#5d5d5d', LIGHT = '#a3a09a', HAIR = '#c9c6bf', PAPER = '#f7f6f2', ORANGE = '#d94f1e';
 
 export const SHEET = { x0: -38, z0: -30, w: 76, h: 60 };
@@ -239,25 +241,12 @@ export function drawSitePlan(canvas, L, s, font = 'Archivo, Arial, sans-serif') 
   const W = 0.3, w2 = 0.15;
   const wall = (ax, bx, az, bz) => fill(Math.min(ax, bx), Math.max(ax, bx), Math.min(az, bz), Math.max(az, bz), INK);
   // ===== Ground floor: salon, dining, family living, kitchen, service wing (Lebanese villa programme) =====
-  const EW = 0.25, IW = 0.12;
-  const wx = (x0, x1, z, t = IW) => wall(x0, x1, z - t / 2, z + t / 2); // wall running along x at z
-  const wz = (z0, z1, x, t = IW) => wall(x - t / 2, x + t / 2, z0, z1); // wall running along z at x
-  // exterior: block only on the north (service) side, the entry side and behind the service rooms
-  wall(vx0, vx1, vz0, vz0 + EW);
-  wall(vx0, vx0 + EW, vz0, -10.5); wall(vx0, vx0 + EW, -8.7, -7); // west, double entry door -10.5..-8.7
-  wall(vx1 - EW, vx1, vz0, -10); wall(vx1 - EW, vx1, -8.8, -7); // east, service door -10..-8.8
+  const EW = 0.25;
+  WALLS.forEach(([a, b, c, d]) => wall(a, b, c, d)); // exterior block walls and partitions (layout.js)
   // glazing: double line + mullions every 2.5 m
   const glazeH = (ax, bx, z) => { stroke(INK, 0.02); line(ax, z - 0.1, bx, z - 0.1); line(ax, z + 0.06, bx, z + 0.06); stroke(INK, 0.04); const n = Math.round((bx - ax) / 2.5); for (let i = 0; i <= n; i++) { const x = ax + ((bx - ax) * i) / n; line(x, z - 0.15, x, z + 0.12); } };
   const glazeV = (x, az, bz) => { stroke(INK, 0.02); line(x - 0.06, az, x - 0.06, bz); line(x + 0.1, az, x + 0.1, bz); stroke(INK, 0.04); const n = Math.round((bz - az) / 2.4); for (let i = 0; i <= n; i++) { const z = az + ((bz - az) * i) / n; line(x - 0.12, z, x + 0.15, z); } };
   glazeH(vx0, vx1, vz1 - 0.12); glazeV(vx0 + 0.12, -7, vz1); glazeV(vx1 - 0.12, -7, vz1);
-  // interior walls
-  wx(vx0, -6, -7, 0.15); wx(1, 3, -7, 0.15); wx(6, vx1, -7, 0.15); // band wall: openings to salon (-6..-4), hall, dining/kitchen (3..6)
-  wx(vx0, -9.6, -11.6); wx(-8.8, -7.8, -11.6); wz(vz0, -11.6, -7.8); // powder room, door -9.6..-8.8
-  wz(vz0, -9, 1, 0.15); wz(-8, -7, 1, 0.15); // stair hall | kitchen, door -9..-8
-  wz(vz0, -10, 8, 0.15); wz(-8.8, -7, 8, 0.15); // kitchen | service corridor, door -10..-8.8
-  wx(8, 9, -10); wx(9.9, 11, -10); wx(11.9, vx1, -10); wz(vz0, -10, 10.6); // laundry | maid's room
-  wx(8, 8.4, -8.8); wx(9.2, 12.4, -8.8); wx(13.2, vx1, -8.8); wz(-8.8, -7, 11.6); // store | maid's bath
-  wall(5.85, 6.15, -7, -3.5); // TV wall between dining and family living
   // structure: columns on the 6 x 7 m grid
   g.fillStyle = INK; L.CX.forEach(x => L.CZ.forEach(z => g.fillRect(X(x - 0.2), Y(z - 0.2), M(0.4), M(0.4))));
   // doors: leaf + swing arc
@@ -361,8 +350,8 @@ export function drawSitePlan(canvas, L, s, font = 'Archivo, Arial, sans-serif') 
     stroke(MID, 0.02); circle(x, z, rad * 0.45);
     g.fillStyle = INK; circle(x, z, 0.08, true);
   };
-  [[-12, 10, 1.6], [-12, 16, 1.4], [14, 14, 1.6], [-2, 18, 2.1], [-28, 18, 1.9], [-28, -20, 1.5], [12, -19, 2], [-14, -19, 1.6], [7, 19, 1.2], [8, 20, 1.3], [-10, -19.5, 1.1]].forEach(([x, z, rr]) => tree(x, z, rr));
-  for (let x = -12; x < 14; x += 1.1) tree(x, -20.6, 0.55);
+  TREES.forEach(([x, z, rr]) => tree(x, z, rr));
+  HEDGE.forEach(([x, z, rr]) => tree(x, z, rr));
 
   // ---------- north arrow and scale bar ----------
   stroke(INK, 0.04); circle(-32.5, 18, 1.1);

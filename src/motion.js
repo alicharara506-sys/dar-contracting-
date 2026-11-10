@@ -3,7 +3,6 @@
 //  - "lit" paragraphs whose words light up one by one as you scroll through them
 //  - 3D tilt cards that follow the finger / mouse, or the phone's tilt, with a moving shine
 //  - partner flip cards, list items that flip in, icons that draw themselves
-//  - kinetic bands whose speed and lean follow the scroll velocity
 // Reduced-motion visitors get the final state with no movement.
 
 export function createMotion({ reduced = false, coarse = false } = {}) {
@@ -30,27 +29,11 @@ export function createMotion({ reduced = false, coarse = false } = {}) {
     $$('.col li').forEach((li, i, all) => li.style.setProperty('--i', i % 5));
   }
 
-  // ---------- kinetic bands ----------
-  const bands = $$('.mq-track');
-  function fillBands(DICT, lang) {
-    const t = DICT[lang];
-    bands.forEach(track => {
-      let items;
-      if (track.dataset.mq === 'promise') items = ['en', 'fr', 'ar'].map(l => DICT[l]['s.plan.t']); // the promise in all three languages
-      else items = ['srv.fin.t', 'srv.plu.t', 'srv.ele.t', 'srv.dpm.t'].map(k => t[k]);
-      const run = items.map(x => `<span>${escapeHtml(x)}</span><i aria-hidden="true"></i>`).join('');
-      track.innerHTML = `<div class="mq-run">${run}</div><div class="mq-run">${run}</div><div class="mq-run">${run}</div>`;
-      track.dataset.w = '';
-    });
-  }
-  const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
   // ---------- refresh after the text changes language ----------
-  function refresh(DICT, lang) {
+  function refresh() {
     $$('.sec h2').forEach(el => splitWords(el, 'kw'));
     $$('.lit').forEach(el => splitWords(el, 'lw'));
     numberItems();
-    fillBands(DICT, lang);
   }
 
   // ---------- 3D tilt with shine: finger / mouse over a card, or the whole phone tilting ----------
@@ -103,10 +86,8 @@ export function createMotion({ reduced = false, coarse = false } = {}) {
   const io = new IntersectionObserver(entries => entries.forEach(en => en.target.classList.toggle('in-view', en.isIntersecting)), { threshold: 0.15 });
   $$('.tilt, .lit').forEach(el => io.observe(el));
 
-  // ---------- per-frame: lit words follow the scroll, bands move with scroll velocity ----------
-  let lastY = scrollY, vel = 0, offset = 0, last = performance.now();
-  function frame(now) {
-    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  // ---------- per-frame: lit words follow the scroll ----------
+  function frame() {
     const vh = innerHeight;
     // words light up as the paragraph travels from the bottom of the screen to the upper third
     $$('.lit.in-view').forEach(el => {
@@ -116,19 +97,6 @@ export function createMotion({ reduced = false, coarse = false } = {}) {
       const n = reduced ? words.length : Math.round(p * words.length);
       words.forEach((w, i) => w.classList.toggle('on', i < n));
     });
-    // bands: a base drift plus the scroll speed; they lean in the direction of travel
-    const dy = scrollY - lastY; lastY = scrollY;
-    vel += (dy - vel) * 0.12;
-    if (!reduced) {
-      offset += (40 + Math.abs(vel) * 18) * dt * (vel < -0.5 ? -1 : 1);
-      bands.forEach((track, k) => {
-        const w = track.firstElementChild ? track.firstElementChild.offsetWidth : 0;
-        if (!w) return;
-        const dir = k % 2 ? 1 : -1;
-        const x = ((offset % w) + w) % w;
-        track.style.transform = `translate3d(${dir * x - (dir > 0 ? w : 0)}px,0,0) skewX(${Math.max(-12, Math.min(12, -vel * 0.6))}deg)`;
-      });
-    }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
